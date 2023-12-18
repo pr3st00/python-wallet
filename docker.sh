@@ -5,7 +5,7 @@
 # Author: Fernando Costa de Almeida
 # --------------------------------------------------------
 
-CONTAINER_NAME=fundamentus
+CONTAINER_NAME=python-wallet
 
 # Defaults. Values from .env file can overwrite those
 DOCKER_USER=pr3st00
