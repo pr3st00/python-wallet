@@ -9,7 +9,7 @@ CONTAINER_NAME=python-wallet
 
 # Defaults. Values from .env file can overwrite those
 DOCKER_USER=pr3st00
-SERVER_PORT=8082
+SERVER_PORT=8083
 
 if [[ -f .env ]]; then
         echo "Loading variables from .env file"
