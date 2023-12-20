@@ -1,5 +1,6 @@
 from web3 import Web3
-from lib.exceptions import ConnectionException
+from web3.exceptions import InvalidAddress
+from lib.exceptions import ConnectionException, InvalidWalletAddress
 from dotenv import load_dotenv
 
 import os
@@ -12,13 +13,17 @@ def get_wallet(address):
     if not w3.is_connected():
         raise ConnectionException("Not connected")
 
-    wallet = {}
-    
-    wallet["address"] = address
-    
-    balance = w3.eth.get_balance(address)
-    wallet["balance"] = w3.from_wei(balance, 'ether')
+    try:
+        wallet = {}
+        wallet["status"] = "success"
+        wallet["address"] = address
+        
+        balance = w3.eth.get_balance(address)
+        wallet["balance"] = w3.from_wei(balance, 'ether')
 
-    return wallet
+        return wallet
+    except InvalidAddress:
+        raise InvalidWalletAddress
+
 
 # EOF
