@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 
-from lib.etherum import get_wallet
+from lib.crypto import Ethereum, Bitcoin
 from lib.exceptions import ConnectionException, InvalidWalletAddress
 from lib.error import error_out
 
@@ -14,7 +14,20 @@ def health():
 @app.get("/wallet/eth/<address>")
 def get_eth_wallet_details(address):
         try:
-            return jsonify(get_wallet(address))
+            ethereum = Ethereum(address)
+            return jsonify(ethereum.get_wallet())
+        except ConnectionException:
+             return error_out("Error connecting to blockchain", 500)
+        except InvalidWalletAddress:
+             return error_out("Invalid wallet address", 400)
+        except Exception:
+             return error_out("Unexpected error", 500)
+
+@app.get("/wallet/bitcoin/<address>")
+def get_bitcoin_wallet_details(address):
+        try:
+            bitcoin = Bitcoin(address)
+            return jsonify(bitcoin.get_wallet())
         except ConnectionException:
              return error_out("Error connecting to blockchain", 500)
         except InvalidWalletAddress:
